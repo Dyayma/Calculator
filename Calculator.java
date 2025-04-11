@@ -1,4 +1,3 @@
-package com.mycompany.calculator;
 import java.util.Scanner;
 
 
@@ -8,6 +7,10 @@ public class Calculator {
         Scanner scanner = new Scanner(System.in);
         Calcu calculator = new Calcu();  
         boolean isSecretUnlocked = false;
+        
+        System.out.print("Set the passcode for the secret operation: ");
+        String initialPasscode = scanner.nextLine();
+        calculator.setSecretPasscode(initialPasscode);
 
         System.out.println("Choose an operation:");
         System.out.println("1 - Add");
@@ -24,13 +27,12 @@ public class Calculator {
 
             if (choice == 5) {
                 System.out.println("Enter passcode to unlock the secret operation: ");
-                String passcode = scanner.nextLine();
-                String unlockResult = calculator.unlockSecret(passcode);
+                String passcodeAttempt = scanner.nextLine();
+                String unlockResult = calculator.unlockSecret(passcodeAttempt);
                 System.out.println(unlockResult);
 
-                isSecretUnlocked = calculator.isSecretUnlocked();
 
-                if (isSecretUnlocked) {
+                if (calculator.getisSecretUnlocked()){
                     System.out.print("Enter base: ");
                     double base = scanner.nextDouble();
                     System.out.print("Enter exponent: ");
@@ -70,7 +72,6 @@ public class Calculator {
     }
 }
 
-
 public class Calcu {
     
     private double result;
@@ -80,7 +81,7 @@ public class Calcu {
     public Calcu() {
         this.result = 0;
         this.isSecretUnlocked = false;
-        this.secretPasscode = "1234";  
+        this.secretPasscode = " ";  
     }
 
     public double getResult() {
@@ -91,11 +92,19 @@ public class Calcu {
         this.result = result;
     }
 
-    public boolean isSecretUnlocked() {
+    public boolean getisSecretUnlocked() {
         return isSecretUnlocked;
     }
-
-   
+    private void setisSecretUnlocked(boolean secretUnlocked){
+        isSecretUnlocked = secretUnlocked;
+    }
+    public String getSecretPasscode(){
+        return secretPasscode;
+    }
+    public void setSecretPasscode(String secretPasscode){
+        this.secretPasscode = secretPasscode;
+    }
+    
     public String unlockSecret(String passcode) {
         if (passcode.equals(this.secretPasscode)) {
             this.isSecretUnlocked = true;
